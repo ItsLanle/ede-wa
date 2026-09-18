@@ -1,39 +1,127 @@
+/* @import "tailwindcss"; */
+
+/* @theme { */
+  /* Forest — deep Yoruba greens, the base of the palette */
+  /* --color-forest-950: #05150e; */
+  /* --color-forest-900: #0a2318; */
+  /* --color-forest-800: #0f3122; */
+  /* --color-forest-700: #164430; */
+  /* --color-forest-600: #1e5c40; */
+  /* --color-forest-500: #2a7a56; */
+
+  /* Gold — brass, adire indigo's counterpoint, aso-oke thread */
+  /* --color-gold-600: #c08a15; */
+  /* --color-gold-500: #dda92b; */
+  /* --color-gold-400: #ecc55e; */
+  /* --color-gold-300: #f6dfa0; */
+
+  /* Clay — laterite earth and terracotta */
+  /* --color-clay-700: #6e2f1b; */
+  /* --color-clay-600: #8c4023; */
+  /* --color-clay-500: #b05a31; */
+  /* --color-clay-400: #c9784b; */
+
+  /* Sand — unbleached cloth, for type */
+  /* --color-sand-50: #fcf7ee; */
+  /* --color-sand-100: #f6eedf; */
+  /* --color-sand-200: #e7d8be; */
+  /* --color-sand-300: #cfb893; */
+  /* --color-sand-400: #a99372; */
+
+  /* --font-sans: var(--font-geist-sans); */
+  /* --font-mono: var(--font-geist-mono); */
+  /* --font-display: var(--font-fraunces); */
+/* } */
+
+/* body { */
+  /* background-color: var(--color-forest-950); */
+  /* color: var(--color-sand-100); */
+/* } */
+
+
+
+
 @import "tailwindcss";
 
 @theme {
-  /* Forest — deep Yoruba greens, the base of the palette */
-  --color-forest-950: #05150e;
-  --color-forest-900: #0a2318;
-  --color-forest-800: #0f3122;
-  --color-forest-700: #164430;
-  --color-forest-600: #1e5c40;
-  --color-forest-500: #2a7a56;
+/* =========================================================
+STEM SISTERHOOD COLOR PALETTE
+========================================================= */
 
-  /* Gold — brass, adire indigo's counterpoint, aso-oke thread */
-  --color-gold-600: #c08a15;
-  --color-gold-500: #dda92b;
-  --color-gold-400: #ecc55e;
-  --color-gold-300: #f6dfa0;
+/* Green — primary */
+--color-green-950: #123d16;
+--color-green-900: #1b5e20;
+--color-green-800: #256b2a;
+--color-green-700: #2e7d32;
+--color-green-600: #388e3c;
+--color-green-500: #4caf50;
 
-  /* Clay — laterite earth and terracotta */
-  --color-clay-700: #6e2f1b;
-  --color-clay-600: #8c4023;
-  --color-clay-500: #b05a31;
-  --color-clay-400: #c9784b;
+/* Pink — primary accent */
+--color-pink-600: #c2185b;
+--color-pink-500: #e91e63;
+--color-pink-400: #ff69a3;
+--color-pink-300: #ff96c8;
+--color-pink-200: #ffc1dc;
 
-  /* Sand — unbleached cloth, for type */
-  --color-sand-50: #fcf7ee;
-  --color-sand-100: #f6eedf;
-  --color-sand-200: #e7d8be;
-  --color-sand-300: #cfb893;
-  --color-sand-400: #a99372;
+/* Tan — warm neutral */
+--color-tan-700: #8c7355;
+--color-tan-600: #a89070;
+--color-tan-500: #c2a77d;
+--color-tan-400: #d2b48c;
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-fraunces);
+/* Bisque — light background / surfaces */
+--color-bisque-50: #fffaf3;
+--color-bisque-100: #ffe4c4;
+--color-bisque-200: #f5d3ad;
+--color-bisque-300: #e8bd8d;
+--color-bisque-400: #d9a76f;
+
+/* =========================================================
+EDE WA → STEM SISTERHOOD COLOR MAPPING
+========================================================= */
+
+/* forest-* → green-* */
+--color-forest-950: #123d16;
+--color-forest-900: #1b5e20;
+--color-forest-800: #256b2a;
+--color-forest-700: #2e7d32;
+--color-forest-600: #388e3c;
+--color-forest-500: #4caf50;
+
+/* gold-* → pink-* */
+--color-gold-600: #c2185b;
+--color-gold-500: #e91e63;
+--color-gold-400: #ff69a3;
+--color-gold-300: #ff96c8;
+--color-gold-200: #ffc1dc;
+
+/* clay-* → tan-* */
+--color-clay-700: #8c7355;
+--color-clay-600: #a89070;
+--color-clay-500: #c2a77d;
+--color-clay-400: #d2b48c;
+
+/* sand-* → bisque-* */
+--color-sand-50: #fffaf3;
+--color-sand-100: #ffe4c4;
+--color-sand-200: #f5d3ad;
+--color-sand-300: #e8bd8d;
+--color-sand-400: #d9a76f;
+
+/* =========================================================
+FONTS
+========================================================= */
+
+--font-sans: var(--font-geist-sans);
+--font-mono: var(--font-geist-mono);
+--font-display: var(--font-fraunces);
 }
 
+/* =========================================================
+BASE PAGE STYLES
+========================================================= */
+
 body {
-  background-color: var(--color-forest-950);
-  color: var(--color-sand-100);
+background-color: var(--color-bisque-50);
+color: #000000;
 }
