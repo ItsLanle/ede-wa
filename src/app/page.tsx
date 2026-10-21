@@ -595,7 +595,7 @@ body: "Òwe, oríkì, and the stories behind the words — so you learn why a th
 export default function Home() {
 return ( <div className="relative min-h-screen overflow-hidden bg-bisque-50 text-green-950"> <Backdrop />
 
-```
+
   {/* Navigation */}
   <header className="relative z-10 border-b border-green-900/10 bg-bisque-50/90 backdrop-blur-md">
     <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5 sm:px-10">
