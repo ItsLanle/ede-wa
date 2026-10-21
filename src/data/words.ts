@@ -9,6 +9,8 @@ export type Word = {
   meaning: string;
   example: string;
   exampleMeaning: string;
+  /** Native-speaker recordings in public/audio/words/. Leave out until recorded. */
+  audio?: { word: string; example?: string };
 };
 
 export const words: Word[] = [
@@ -22,8 +24,7 @@ export const words: Word[] = [
     partOfSpeech: "noun",
     meaning: "mother",
     example: "Ìyá mi ni.",
-    exampleMeaning: "She is my mother.",
-  },
+    exampleMeaning: "She is my mother.",  },
   {
     word: "Bàbá",
     pronunciation: "bah-BAH",
