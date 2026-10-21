@@ -9,6 +9,9 @@ import { Pillars } from "@/components/landing/Pillars";
 import { Practice } from "@/components/landing/Practice";
 import { WordOfTheDay } from "@/components/landing/WordOfTheDay";
 
+// Re-render hourly so the word of the day changes soon after midnight UTC.
+export const revalidate = 3600;
+
 export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-bisque-50 text-green-950">

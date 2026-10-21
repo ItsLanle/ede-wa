@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function FinalCta() {
   return (
     <section className="px-6 pb-20 sm:px-10 sm:pb-24">
@@ -14,12 +16,12 @@ export function FinalCta() {
           Start with ten minutes. Hear a word. Say it back. Keep going.
         </p>
 
-        <a
-          href="#begin"
+        <Link
+          href="/word"
           className="mt-8 inline-flex h-14 items-center justify-center rounded-full bg-pink-500 px-9 text-base font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-pink-600 hover:shadow-lg"
         >
           Start learning Yorùbá
-        </a>
+        </Link>
       </div>
     </section>
   );
