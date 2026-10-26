@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 
-import { Backdrop } from "@/components/landing/Backdrop";
-import { Footer } from "@/components/landing/Footer";
-import { Header } from "@/components/landing/Header";
+import { SiteShell } from "@/components/SiteShell";
 import { WordCard } from "@/components/WordCard";
 import { getPreviousWords, getWordOfTheDay } from "@/data/words";
 
@@ -19,11 +17,8 @@ export default function WordPage() {
   const previous = getPreviousWords(6);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-bisque-50 text-green-950">
-      <Backdrop />
-      <Header />
-
-      <main className="relative z-10 px-6 py-16 sm:px-10 sm:py-24">
+    <SiteShell>
+      <div className="px-6 py-16 sm:px-10 sm:py-24">
         <div className="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
             <p className="text-xs font-semibold tracking-[0.2em] text-pink-600 uppercase">
@@ -79,9 +74,7 @@ export default function WordPage() {
             </ul>
           </section>
         )}
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </SiteShell>
   );
 }

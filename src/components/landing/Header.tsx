@@ -19,21 +19,21 @@ export function Header() {
 
         <nav className="flex items-center gap-5 text-sm font-medium sm:gap-8">
           <Link
-            href="/#who"
+            href="/learn"
             className="hidden text-green-800 transition-colors hover:text-pink-600 sm:block"
           >
-            Who it is for
-          </Link>
-
-          <Link
-            href="/#practice"
-            className="hidden text-green-800 transition-colors hover:text-pink-600 sm:block"
-          >
-            Practice with AI
+            Lessons
           </Link>
 
           <Link
             href="/word"
+            className="hidden text-green-800 transition-colors hover:text-pink-600 sm:block"
+          >
+            Word of the day
+          </Link>
+
+          <Link
+            href="/learn"
             className="rounded-full bg-green-700 px-4 py-2.5 text-bisque-50 transition-all hover:bg-green-800 hover:shadow-md"
           >
             Start learning

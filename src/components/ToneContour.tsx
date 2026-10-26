@@ -1,11 +1,11 @@
-import type { Tone, Word } from "@/data/words";
+import type { Syllable, Tone } from "@/data/words";
 
 const STEP = 72;
 const PAD = 36;
 const TONE_Y: Record<Tone, number> = { high: 12, mid: 32, low: 52 };
 
 /** Draws the word's melody: one dot per syllable at its pitch, joined by a line. */
-export function ToneContour({ syllables }: { syllables: Word["syllables"] }) {
+export function ToneContour({ syllables }: { syllables: Syllable[] }) {
   const width = PAD * 2 + STEP * (syllables.length - 1);
   const points = syllables.map((syllable, i) => ({
     x: PAD + STEP * i,
@@ -19,7 +19,7 @@ export function ToneContour({ syllables }: { syllables: Word["syllables"] }) {
       aria-label={`Tones: ${syllables.map((s) => `${s.text} ${s.tone}`).join(", ")}`}
       viewBox={`0 0 ${width} 104`}
       width={width}
-      className="max-w-full overflow-visible"
+      className="h-auto max-w-full overflow-visible"
     >
       {(Object.keys(TONE_Y) as Tone[]).map((tone) => (
         <line

@@ -1,10 +1,12 @@
 export type Tone = "high" | "mid" | "low";
 
+export type Syllable = { text: string; tone: Tone };
+
 export type Word = {
   word: string;
   /** Rough English sound guide; capitals mark high-tone syllables. */
   pronunciation: string;
-  syllables: { text: string; tone: Tone }[];
+  syllables: Syllable[];
   partOfSpeech: "noun" | "verb" | "phrase";
   meaning: string;
   example: string;

@@ -17,7 +17,7 @@ export function FinalCta() {
         </p>
 
         <Link
-          href="/word"
+          href="/learn"
           className="mt-8 inline-flex h-14 items-center justify-center rounded-full bg-pink-500 px-9 text-base font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-pink-600 hover:shadow-lg"
         >
           Start learning Yorùbá

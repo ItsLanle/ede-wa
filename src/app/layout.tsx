@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Lora } from "next/font/google";
 import "./globals.css";
 
 // The vietnamese subset carries the dot-below vowels Yoruba needs (ẹ, ọ);
@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin", "latin-ext", "vietnamese"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+// Headings. Unlike Fraunces, Lora stacks a tone mark on a dotted letter (ẹ̀, ọ́).
+const lora = Lora({
+  variable: "--font-lora",
   subsets: ["latin", "latin-ext", "vietnamese"],
   style: ["normal", "italic"],
 });
@@ -30,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${lora.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
