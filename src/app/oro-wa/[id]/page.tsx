@@ -2,10 +2,21 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { SubmitButton } from "@/components/forum/SubmitButton";
 import { SiteShell } from "@/components/SiteShell";
-import { getComments, getPost, isOwner, parseId, timeAgo } from "@/lib/forum";
+import {
+  FLAGS,
+  currentAuthor,
+  getComments,
+  getPost,
+  handle,
+  isOwner,
+  parseId,
+  timeAgo,
+  videoEmbed,
+} from "@/lib/forum";
 
-import { addComment, deletePost, upvotePost } from "../actions";
+import { addComment, deleteComment, deletePost, upvotePost } from "../actions";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -19,12 +30,18 @@ export default async function PostPage({ params }: Props) {
   const id = parseId((await params).id);
   if (!id) notFound();
 
-  const [post, comments, owner] = await Promise.all([
+  const [post, comments, owner, me] = await Promise.all([
     getPost(id),
     getComments(id),
     isOwner(id),
+    currentAuthor(),
   ]);
   if (!post) notFound();
+
+  const referenced = post.reference_id ? await getPost(post.reference_id) : null;
+  const video = post.video_url ? videoEmbed(post.video_url) : null;
+  const byline = (author: string | null) =>
+    `${handle(author)}${author && author === me ? " (you)" : ""}`;
 
   return (
     <SiteShell>
@@ -33,12 +50,51 @@ export default async function PostPage({ params }: Props) {
           ← Ọ̀rọ̀ Wa
         </Link>
 
-        <h1 className="mt-6 font-display text-4xl font-semibold tracking-tight break-words text-green-950 sm:text-5xl">
+        <div className="mt-6 flex flex-wrap items-center gap-2 text-xs font-semibold">
+          <span className="rounded-full border border-green-900/15 px-2.5 py-1 font-mono text-green-900/60">
+            Post #{post.id}
+          </span>
+          {post.flag && (
+            <Link
+              href={`/oro-wa?flag=${post.flag}`}
+              className="rounded-full bg-green-700/10 px-2.5 py-1 text-green-800 hover:text-pink-600"
+            >
+              {FLAGS[post.flag].label} · {FLAGS[post.flag].yoruba}
+            </Link>
+          )}
+        </div>
+
+        <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight break-words text-green-950 sm:text-5xl">
           {post.title}
         </h1>
-        <time dateTime={post.created_at} className="mt-3 block text-sm text-green-900/50">
-          Posted {timeAgo(post.created_at)}
-        </time>
+        <p className="mt-3 text-sm text-green-900/50">
+          {byline(post.author)} · <time dateTime={post.created_at}>{timeAgo(post.created_at)}</time>
+        </p>
+
+        {post.reference_id && (
+          <div className="mt-8 rounded-3xl border-l-4 border-pink-500 bg-white/60 p-5">
+            <p className="text-xs font-semibold tracking-[0.15em] text-pink-600 uppercase">
+              Reposting #{post.reference_id}
+            </p>
+            {referenced ? (
+              <Link href={`/oro-wa/${referenced.id}`} className="group mt-2 block">
+                <span className="font-display text-xl font-semibold text-green-950 group-hover:text-pink-600">
+                  {referenced.title}
+                </span>
+                {referenced.content && (
+                  <span className="mt-1 line-clamp-2 block text-sm text-green-900/70">
+                    {referenced.content}
+                  </span>
+                )}
+                <span className="mt-2 block text-xs text-green-900/50">
+                  {handle(referenced.author)} · {timeAgo(referenced.created_at)} · ▲ {referenced.upvotes}
+                </span>
+              </Link>
+            ) : (
+              <p className="mt-2 text-sm text-green-900/60">That post has been deleted.</p>
+            )}
+          </div>
+        )}
 
         {post.content && (
           <p className="mt-8 text-lg leading-8 break-words whitespace-pre-wrap text-green-950/85">
@@ -57,16 +113,34 @@ export default async function PostPage({ params }: Props) {
           />
         )}
 
+        {video?.kind === "iframe" && (
+          <iframe
+            src={video.src}
+            title={`Video for “${post.title}”`}
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+            className="mt-8 aspect-video w-full rounded-3xl border border-green-900/10"
+          />
+        )}
+        {video?.kind === "file" && (
+          <video src={video.src} controls preload="metadata" className="mt-8 w-full rounded-3xl" />
+        )}
+
         <div className="mt-10 flex flex-wrap items-center gap-3 border-y border-green-900/10 py-5">
           <form action={upvotePost.bind(null, post.id)}>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 rounded-full bg-pink-500/10 px-5 py-2.5 text-sm font-semibold text-pink-600 transition-colors hover:bg-pink-500/20"
-            >
+            <SubmitButton className="rounded-full bg-pink-500/10 px-5 py-2.5 text-sm font-semibold text-pink-600 transition-colors hover:bg-pink-500/20">
               <span aria-hidden>▲</span>
               Ẹ ṣé · {post.upvotes} {post.upvotes === 1 ? "upvote" : "upvotes"}
-            </button>
+            </SubmitButton>
           </form>
+
+          <Link
+            href={`/oro-wa/new?ref=${post.id}`}
+            className="rounded-full border border-green-900/15 px-4 py-2.5 text-sm font-medium text-green-800 hover:border-pink-600 hover:text-pink-600"
+          >
+            ↻ Repost
+          </Link>
 
           {owner && (
             <>
@@ -77,12 +151,12 @@ export default async function PostPage({ params }: Props) {
                 Edit
               </Link>
               <form action={deletePost.bind(null, post.id)}>
-                <button
-                  type="submit"
+                <SubmitButton
+                  pendingText="Deleting…"
                   className="rounded-full border border-pink-600/30 px-4 py-2.5 text-sm font-medium text-pink-700 hover:bg-pink-500/10"
                 >
                   Delete
-                </button>
+                </SubmitButton>
               </form>
             </>
           )}
@@ -106,12 +180,12 @@ export default async function PostPage({ params }: Props) {
               placeholder="Add to the conversation…"
               className="flex-1 resize-none rounded-2xl border border-green-900/15 bg-white/80 px-4 py-3 text-base text-green-950 placeholder:text-green-900/40 focus:border-green-700 focus:outline-none"
             />
-            <button
-              type="submit"
-              className="rounded-full bg-green-700 px-5 py-3 text-sm font-semibold text-bisque-50 hover:bg-green-800"
+            <SubmitButton
+              pendingText="Posting…"
+              className="justify-center rounded-full bg-green-700 px-5 py-3 text-sm font-semibold text-bisque-50 hover:bg-green-800"
             >
               Comment
-            </button>
+            </SubmitButton>
           </form>
 
           {comments.length === 0 ? (
@@ -121,9 +195,19 @@ export default async function PostPage({ params }: Props) {
               {comments.map((comment) => (
                 <li key={comment.id} className="rounded-2xl border border-green-900/10 bg-white/70 px-5 py-4">
                   <p className="break-words whitespace-pre-wrap text-green-950">{comment.body}</p>
-                  <time dateTime={comment.created_at} className="mt-2 block text-xs text-green-900/50">
-                    {timeAgo(comment.created_at)}
-                  </time>
+                  <div className="mt-2 flex items-center gap-3 text-xs text-green-900/50">
+                    <span>
+                      {byline(comment.author)} ·{" "}
+                      <time dateTime={comment.created_at}>{timeAgo(comment.created_at)}</time>
+                    </span>
+                    {me && comment.author === me && (
+                      <form action={deleteComment.bind(null, comment.id, post.id)} className="ml-auto">
+                        <SubmitButton pendingText="Deleting…" className="font-medium text-pink-700 hover:underline">
+                          Delete
+                        </SubmitButton>
+                      </form>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>
