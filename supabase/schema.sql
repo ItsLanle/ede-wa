@@ -33,3 +33,21 @@ language sql
 as $$
   update forum_posts set upvotes = upvotes + 1 where id = post_id;
 $$;
+
+-- ─── Stretch features (run after the tables above exist) ──────────────────
+
+-- Pseudo-auth (fingerprint of each visitor's random user ID), flags,
+-- web videos, and reposts that reference another post.
+alter table forum_posts
+  add column author text,
+  add column flag text check (flag in ('question', 'opinion', 'proverb', 'win', 'culture')),
+  add column video_url text check (char_length(video_url) <= 1000),
+  add column reference_id bigint references forum_posts (id) on delete set null;
+
+alter table forum_comments
+  add column author text;
+
+-- Public bucket for photos uploaded from people's devices (4 MB max).
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('forum-images', 'forum-images', true, 4194304,
+        array['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
