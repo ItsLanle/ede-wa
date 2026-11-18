@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const conversationTraits = [
   {
     number: "01",
@@ -61,6 +63,13 @@ export function Practice() {
               </div>
             ))}
           </div>
+
+          <Link
+            href="/practice"
+            className="mt-8 inline-flex rounded-full bg-green-700 px-6 py-3 text-sm font-semibold text-bisque-50 transition-all hover:bg-green-800 hover:shadow-md"
+          >
+            Try Ìjíròrò
+          </Link>
         </div>
 
         <ConversationMockup />

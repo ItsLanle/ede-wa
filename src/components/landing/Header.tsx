@@ -33,6 +33,13 @@ export function Header() {
           </Link>
 
           <Link
+            href="/practice"
+            className="hidden text-green-800 transition-colors hover:text-pink-600 sm:block"
+          >
+            Practice
+          </Link>
+
+          <Link
             href="/learn"
             className="rounded-full bg-green-700 px-4 py-2.5 text-bisque-50 transition-all hover:bg-green-800 hover:shadow-md"
           >
